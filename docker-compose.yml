@@ -1,0 +1,17 @@
+version: '2'
+services:
+  builder:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile-builder
+    volumes:
+      - .:/workdir
+    working_dir: /workdir
+  web-server:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile-web-server
+    ports:
+      - 3000:5000
+    volumes:
+      - .:/dist

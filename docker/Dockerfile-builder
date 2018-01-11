@@ -1,0 +1,23 @@
+FROM node:6.7.0
+
+MAINTAINER Tiago Luchini <luchini@work.co>
+MAINTAINER Marwan Sulaiman <marwan.sulaiman@work.co>
+
+RUN mkdir -p /cache/prod && mkdir -p /workdir
+COPY package.json /cache/prod
+
+RUN cd /cache/prod && npm install --only=prod && \
+  tar czf node_modules.tar.gz node_modules && \
+  rm -rf node_modules
+
+WORKDIR /workdir
+
+CMD mkdir -p dist && rm -rf dist/* && \
+  echo 'what' > /workdir/what.txt && \
+  echo hi there `pwd` and `ls` && \
+  cp package.json dist/ && \
+  cp docker-compose.yml dist/ && \
+  cp docker-compose.qa.yml dist/ && \
+  cp -a docker dist/ && \
+  cp -a src dist/src && \
+  cd dist && tar xzf /cache/prod/node_modules.tar.gz \

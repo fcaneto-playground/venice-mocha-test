@@ -1,0 +1,10 @@
+version: '2'
+services:
+  web-server:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile-web-server
+    ports:
+      - 3000:5000
+    volumes:
+      - .:/dist
